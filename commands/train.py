@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import variable
-from mgattention.models import MGAT
+from mgattention.models.layers import MGAT
 from mgattention.parse_protein_symbols import entrez_dict
 from mgattention.process_labels.get_labels import get_go_labels
 import argparse

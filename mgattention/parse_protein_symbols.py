@@ -1,4 +1,6 @@
 import re
+import pandas as pd
+
 def entrez_dict(map_loc):
     """
     This function constructs the map between protein symbol and its corresponding Entrez ID.
@@ -6,15 +8,13 @@ def entrez_dict(map_loc):
     The map file is located at:
     /cluster/tufts/cowenlab/Projects/Denoising_Experiments/shared_data/dream_files/idmap.csv
     """
+
+    df = pd.read_csv(map_loc, sep = "\t")
     s_e_dict = {}
-    with open(map_loc, "r") as of:
-        header = True
-        for line in of:
-            if header:
-                header = False
-                continue
-            words = re.split("\t", line.strip())
-            if len(words) >= 2 and words[1] != "":
-                s_e_dict[words[0]] = int(words[1])
-    rev_dict = {s_e_dict[k]: k for k in s_e_dict}
+    rev_dict = {}
+    for i, row in df.iterrows():
+        entrez = row["entrezgene"]
+        symbol = row["symbol"]
+        s_e_dict[symbol] = entrez
+        rev_dict[entrez] = symbol
     return s_e_dict, rev_dict

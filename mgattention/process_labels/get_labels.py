@@ -32,28 +32,6 @@ class GoTool:
             go_terms.append(k)
         return go_terms
     
-    def get_parents(self, go_id, filters = None):    
-        gosubdag = GoSubDag(go_id, self.godag, relationships=True, prt=False)
-        nts      = gosubdag.get_vals("id")
-        parents  = []
-        for n in nts:
-            nObj = gosubdag.go2nt[n]
-            ns   = nObj.NS
-            if ns == "BP":
-                ns = "biological_process"
-            elif ns == "MF":
-                ns = "molecular_function"
-            else:
-                ns = "cellular_component"
-            level= nObj.level
-            
-            if (("max_level" in filters and filters["max_level"] < level) or
-                ("min_level" in filters and filters["min_level"] > level) or
-                ("namespace" in filters and filters["namespace"] != ns)):
-                continue
-            parents.append(nObj.id)
-        return parents
-
     
 def get_go_labels(filter_protein,
                   filter_label,
